@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | QueueManager</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0066ff, #00ccff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            padding: 40px 35px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .container h2 {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .container p {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* Form groups */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #0066ff;
+            box-shadow: 0 0 6px rgba(0, 102, 255, 0.3);
+        }
+
+        /* User type selection */
+        .user-type {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-type-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-type-option.selected {
+            border-color: #0066ff;
+            background-color: rgba(0, 102, 255, 0.1);
+        }
+
+        .user-type-option i {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Admin code field (initially hidden) */
+        #adminCodeGroup {
+            display: none;
+        }
+
+        /* Buttons */
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #0066ff, #00ccff);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(135deg, #0052cc, #0099cc);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 102, 255, 0.3);
+        }
+
+        /* Login link */
+        .container .login-link {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .container .login-link a {
+            color: #0066ff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .container .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Toast */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 14px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 15px;
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Create Account</h2>
+        <p>Sign up for QueueManager as a user or administrator</p>
+
+        <div class="user-type">
+            <div class="user-type-option selected" data-type="user">
+                <i>👤</i>
+                <span>User</span>
+            </div>
+            <div class="user-type-option" data-type="admin">
+                <i>👨‍💼</i>
+                <span>Administrator</span>
+            </div>
+        </div>
+
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Create a password" required minlength="6">
+            </div>
+
+            <div class="form-group" id="adminCodeGroup">
+                <label for="adminCode">Administrator Code</label>
+                <input type="password" id="adminCode" placeholder="Enter administrator code">
+            </div>
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <!-- Login link back -->
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const form = document.getElementById("signupForm");
+        const toast = document.getElementById("toast");
+        const userTypeOptions = document.querySelectorAll('.user-type-option');
+        const adminCodeGroup = document.getElementById('adminCodeGroup');
+        let userType = 'user';
+
+        // Show/hide admin code field
+        userTypeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                userTypeOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                userType = option.getAttribute('data-type');
+
+                if (userType === 'admin') {
+                    adminCodeGroup.style.display = 'block';
+                    document.getElementById('adminCode').setAttribute('required', 'true');
+                } else {
+                    adminCodeGroup.style.display = 'none';
+                    document.getElementById('adminCode').removeAttribute('required');
+                }
+            });
+        });
+
+        function showToast(msg, success = false) {
+            toast.textContent = msg;
+            toast.style.background = success ? "rgba(0,180,120,0.9)" : "rgba(255,77,77,0.9)";
+            toast.className = "toast show";
+            setTimeout(() => { toast.className = "toast"; }, 3000);
+        }
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const fullname = document.getElementById("fullName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const adminCode = document.getElementById("adminCode").value.trim();
+
+            if (userType === 'admin' && adminCode !== "ADMIN2024") {
+                showToast("Invalid administrator code!");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ fullname, email, password, role: userType })
+                });
+                const result = await response.json();
+
+                if (response.status === 201) {
+                    showToast(result.message, true);
+                    setTimeout(() => { window.location.href = "login.html"; }, 1500);
+                } else {
+                    showToast(result.message || "Registration failed!");
+                }
+
+            } catch (err) {
+                console.error(err);
+                showToast("Server error. Try again later.");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

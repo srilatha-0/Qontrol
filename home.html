@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueueManager - Smart Crowd & Queue System</title>
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fbfd;
+      color: #333;
+    }
+
+    /* Header */
+    header {
+      background: #0057d9;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+    }
+
+    nav ul li {
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li:hover {
+      color: #ffeb3b;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .btn {
+      padding: 0.4rem 1rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-login {
+      background: white;
+      color: #0057d9;
+      font-weight: bold;
+    }
+
+    .btn-login:hover {
+      background: #e0e0e0;
+    }
+
+    .btn-register {
+      background: #ffeb3b;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .btn-register:hover {
+      background: #fdd835;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: linear-gradient(120deg, #0057d9, #0099ff);
+      color: white;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero button {
+      padding: 0.8rem 1.5rem;
+      background: white;
+      color: #0057d9;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .hero button:hover {
+      background: #f1f1f1;
+    }
+
+    /* Features Section */
+    .features {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card h3 {
+      color: #0057d9;
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>QueueManager</h1>
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>Features</li>
+        <li>Dashboard</li>
+        <li>Contact</li>
+      </ul>
+      <div class="auth-buttons">
+        <button class="btn btn-login" onclick="login()">Login</button>
+        <button class="btn btn-register" onclick="register()">Register</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Smart Crowd & Queue Management</h2>
+    <p>Join queues digitally, reduce waiting stress, and stay updated in real-time.</p>
+    <button>
+<a href="queue.html">Join Queue Now</a>
+    </button> 
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="feature-card">
+      <h3>📱 Easy Queue Join</h3>
+      <p>Scan a QR or click a button to join without hassle.</p>
+    </div>
+    <div class="feature-card">
+      <h3>⏱ Live Updates</h3>
+      <p>Know your exact wait time and position in line.</p>
+    </div>
+    <div class="feature-card">
+      <h3>📊 Manager Dashboard</h3>
+      <p>Track performance, reduce delays, and plan better staffing.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🔔 Notifications</h3>
+      <p>Get SMS or push alerts when your turn is near.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 QueueManager. All rights reserved.
+  </footer>
+
+  <script>
+    function joinQueue() {
+      alert("Queue joining feature coming soon!");
+    }
+    function login() {
+      alert("Redirect to Login Page");
+    }
+    function register() {
+      alert("Redirect to Register Page");
+    }
+  </script>
+
+</body>
+</html>
