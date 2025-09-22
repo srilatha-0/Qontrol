@@ -6,146 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .login-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-container {
-            background: #fff;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            width: 380px;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .sub-title {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .toggle-login {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-
-        .toggle-login button {
-            flex: 1;
-            padding: 10px 0;
-            border: none;
-            background: #f0f0f0;
-            cursor: pointer;
-            border-radius: 50px;
-            margin: 0 5px;
-            font-weight: 600;
-            color: #555;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-login button.active {
-            background: #764ba2;
-            color: #fff;
-            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
-        }
-
-        .fields {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 12px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            outline: none;
-            transition: 0.3s;
-            font-size: 15px;
-        }
-
-        .input-group label {
-            position: absolute;
-            top: 50%;
-            left: 12px;
-            color: #999;
-            transform: translateY(-50%);
-            pointer-events: none;
-            transition: 0.3s;
-            background: #fff;
-            padding: 0 4px;
-        }
-
-        .input-group input:focus+label,
-        .input-group input:valid+label {
-            top: -8px;
-            left: 10px;
-            font-size: 12px;
-            color: #764ba2;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            background: #764ba2;
-            color: white;
-            font-size: 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .login-btn:hover {
-            background: #5e3499;
-        }
-
-        .footer-text {
-            margin-top: 20px;
-            font-size: 13px;
-            color: #777;
-        }
-
-        .footer-text a {
-            color: #764ba2;
-            text-decoration: none;
-        }
-
-        .footer-text a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 
 <body>
@@ -169,7 +29,7 @@
                     <label>Password</label>
                 </div>
 
-                <!-- Admin code field (hidden by default) -->
+            
                 <div class="input-group" id="adminCodeGroup" style="display:none;">
                     <input type="password" name="adminCode" placeholder="Admin Code">
 
@@ -251,6 +111,4 @@
                     }
                 });
             </script>
-
-
 </body>

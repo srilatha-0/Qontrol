@@ -14,7 +14,6 @@ body {
     padding: 20px;
 }
 
-/* Container */
 .container {
     width: 100%;
     max-width: 450px;
@@ -40,7 +39,7 @@ body {
     margin-bottom: 25px;
 }
 
-/* Form groups */
+
 .form-group {
     margin-bottom: 20px;
     position: relative;
@@ -69,7 +68,6 @@ body {
     box-shadow: 0 0 6px rgba(0, 102, 255, 0.3);
 }
 
-/* User type selection */
 .user-type {
     display: flex;
     gap: 15px;
@@ -96,13 +94,11 @@ body {
     margin-bottom: 5px;
     display: block;
 }
-
-/* Admin code field (initially hidden) */
+ 
 #adminCodeGroup {
     display: none;
 }
 
-/* Buttons */
 button[type="submit"] {
     width: 100%;
     padding: 12px;
@@ -123,7 +119,6 @@ button[type="submit"]:hover {
     box-shadow: 0 6px 18px rgba(0, 102, 255, 0.3);
 }
 
-/* Login link */
 .container .login-link {
     margin-top: 18px;
     text-align: center;
@@ -141,7 +136,6 @@ button[type="submit"]:hover {
     text-decoration: underline;
 }
 
-/* Toast */
 .toast {
     visibility: hidden;
     min-width: 250px;
@@ -166,7 +160,6 @@ button[type="submit"]:hover {
     bottom: 50px;
 }
 
-/* Animations */
 @keyframes fadeInUp {
     from {
         transform: translateY(40px);
