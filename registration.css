@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
 :root {
     --primary-color: #1D3557; /* Navy Blue */
     --secondary-color: #457B9D; /* Steel Blue */
@@ -11,8 +13,6 @@
     --twitter-color: #1DA1F2;
     --insta-color: #E1306C;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 
 * {
     font-family: 'Poppins', sans-serif;
@@ -63,6 +63,8 @@ html, body {
     transform: scale(0);
     transition: .5s ease-in-out;
     transition-delay: 1s;
+    position: relative;   /* ✅ ensure above background */
+    z-index: 10;          /* ✅ above the container::before */
 }
 
 .input-group {
@@ -124,6 +126,8 @@ html, body {
     transform: scale(0);
     transition: .5s ease-in-out;
     transition-delay: 1.2s;
+    position: relative;  /* ✅ fix stacking */
+    z-index: 10;
 }
 
 .social-list>div {
@@ -217,6 +221,21 @@ html, body {
 .container.sign-up .img.sign-up img {
     transform: translateX(0);
 }
+.admin-btn {
+    padding: 0.3rem 0.9rem; /* smaller padding */
+    font-size: 0.6rem;      /* smaller text */
+    border-radius: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.admin-btn:hover {
+    background-color: var(--secondary-color); /* optional hover effect */
+}
+
 
 /* BACKGROUND */
 .container::before {
@@ -229,7 +248,7 @@ html, body {
     transform: translate(35%, 0);
     background-image: linear-gradient(-45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     transition: 1s ease-in-out;
-    z-index: 6;
+    z-index: 5;  /* ✅ lower than form */
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-bottom-right-radius: max(50vw, 50vh);
     border-top-left-radius: max(50vw, 50vh);
@@ -247,7 +266,6 @@ html, body {
 
 /* RESPONSIVE */
 @media only screen and (max-width: 425px) {
-
     .container::before,
     .container.sign-in::before,
     .container.sign-up::before {
@@ -309,6 +327,3 @@ html, body {
         font-size: 2rem;
     }
 }
-
-
-

@@ -744,6 +744,7 @@ def create_sample_counters():
         if conn:
             conn.close()
 
+
 # ------------------- RUN APP -------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
