@@ -4,124 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | QueueManager</title>
+    <title>Document</title>
     <link rel="stylesheet" href="registration.css">
 </head>
 
 <body>
-    <div class="container">
-        <h2>Create Account</h2>
-        <p>Sign up for QueueManager as a user or administrator</p>
+    <div id="container" class="container">
+        <!-- FORM SECTION -->
+        <div class="row">
+            <!-- SIGN UP -->
+            <div class="col align-items-center flex-col sign-up">
+                <div class="form-wrapper align-items-center">
+                    <div class="form sign-up">
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" placeholder="Username">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-phone'></i>
+                            <input type="number" placeholder="PhoneNo">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bx-mail-send'></i>
+                            <input type="email" placeholder="Email">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" placeholder="Password">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" placeholder="Confirm password">
+                        </div>
+                        <button>
+                            Sign up
+                        </button>
+                        <p>
+                            <span>
+                                Already have an account?
+                            </span>
+                            <b onclick="toggle()" class="pointer">
+                                Sign in here
+                            </b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- END SIGN UP -->
 
-        <div class="user-type">
-            <div class="user-type-option selected" data-type="user">
-                <i>👤</i>
-                <span>User</span>
+            <!-- SIGN IN -->
+            <div class="col align-items-center flex-col sign-in">
+                <div class="form-wrapper align-items-center">
+                    <div class="form sign-in">
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" placeholder="Username">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" placeholder="Password">
+                        </div>
+                        <button>
+                            Sign in
+                        </button>
+                        <p>
+                            <b>
+                                Forgot password?
+                            </b>
+                        </p>
+                        <p>
+                            <span>
+                                Don't have an account?
+                            </span>
+                            <b onclick="toggle()" class="pointer">
+                                Sign up here
+                            </b>
+                        </p>
+                        <!-- ✅ ADMIN LOGIN BUTTON -->
+                        <button onclick="location.href='admin_reg.html'" class="admin-btn">
+                            Login / Register as Admin
+                        </button>
+                    </div>
+                </div>
+                <div class="form-wrapper"></div>
             </div>
-            <div class="user-type-option" data-type="admin">
-                <i>👨‍💼</i>
-                <span>Administrator</span>
-            </div>
+            <!-- END SIGN IN -->
         </div>
+        <!-- END FORM SECTION -->
 
-        <form id="signupForm">
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" placeholder="Enter your full name" required>
+        <!-- CONTENT SECTION -->
+        <div class="row content-row">
+            <!-- SIGN IN CONTENT -->
+            <div class="col align-items-center flex-col">
+                <div class="text sign-in">
+                    <h2>
+                        Welcome
+                    </h2>
+                </div>
+                <div class="img sign-in"></div>
             </div>
+            <!-- END SIGN IN CONTENT -->
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+            <!-- SIGN UP CONTENT -->
+            <div class="col align-items-center flex-col">
+                <div class="img sign-up"></div>
+                <div class="text sign-up">
+                    <h2>
+                        Join with us
+                    </h2>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Create a password" required minlength="6">
-            </div>
-
-            <div class="form-group" id="adminCodeGroup">
-                <label for="adminCode">Administrator Code</label>
-                <input type="password" id="adminCode" placeholder="Enter administrator code">
-            </div>
-
-            <button type="submit">Create Account</button>
-        </form>
-
-        <!-- Login link back -->
-        <div class="login-link">
-            Already have an account? <a href="login.html">Login here</a>
+            <!-- END SIGN UP CONTENT -->
         </div>
+        <!-- END CONTENT SECTION -->
     </div>
-
-    <!-- Toast -->
-    <div id="toast" class="toast"></div>
-
-    <script>
-        const form = document.getElementById("signupForm");
-        const toast = document.getElementById("toast");
-        const userTypeOptions = document.querySelectorAll('.user-type-option');
-        const adminCodeGroup = document.getElementById('adminCodeGroup');
-        let userType = 'user';
-
-        // Show/hide admin code field
-        userTypeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                userTypeOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                userType = option.getAttribute('data-type');
-
-                if (userType === 'admin') {
-                    adminCodeGroup.style.display = 'block';
-                    document.getElementById('adminCode').setAttribute('required', 'true');
-                } else {
-                    adminCodeGroup.style.display = 'none';
-                    document.getElementById('adminCode').removeAttribute('required');
-                }
-            });
-        });
-
-        function showToast(msg, success = false) {
-            toast.textContent = msg;
-            toast.style.background = success ? "rgba(0,180,120,0.9)" : "rgba(255,77,77,0.9)";
-            toast.className = "toast show";
-            setTimeout(() => { toast.className = "toast"; }, 3000);
-        }
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const fullname = document.getElementById("fullName").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const adminCode = document.getElementById("adminCode").value.trim();
-
-            if (userType === 'admin' && adminCode !== "ADMIN2024") {
-                showToast("Invalid administrator code!");
-                return;
-            }
-
-            try {
-                const response = await fetch("http://127.0.0.1:5000/register", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ fullname, email, password, role: userType })
-                });
-                const result = await response.json();
-
-                if (response.status === 201) {
-                    showToast(result.message, true);
-                    setTimeout(() => { window.location.href = "login.html"; }, 1500);
-                } else {
-                    showToast(result.message || "Registration failed!");
-                }
-
-            } catch (err) {
-                console.error(err);
-                showToast("Server error. Try again later.");
-            }
-        });
-    </script>
-
 </body>
+<script src="registration.js"></script>
 
 </html>
