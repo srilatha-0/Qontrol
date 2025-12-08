@@ -1,6 +1,0 @@
-flask
-flask-cors
-flask-mysql-connector
-mysql-connector-python
-python-dotenv
-werkzeug
