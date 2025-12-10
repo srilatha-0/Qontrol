@@ -1,8 +1,6 @@
-import React from 'react';
-import Register from './pages/Register';
+import HomePage from "./pages/home";
 
 function App() {
-  return <Register />;
+  return <HomePage />;
 }
-
 export default App;
