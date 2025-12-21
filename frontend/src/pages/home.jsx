@@ -1,13 +1,18 @@
 import React from "react";
-import "./HomePage.css"; // We'll move the CSS here (recommended)
+import "./HomePage.css"; 
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
-  const login = () => {
-    alert("Redirect to Login Page");
+  
+  const navigate = useNavigate();
+  const UserLogin = () => {
+    console.log("user login works");
+    navigate("/userregister");
   };
 
-  const register = () => {
-    alert("Redirect to Register Page");
+  const AdminLogin = () => {
+    console.log("admin login works");
+    navigate("/AdminAuth");
   };
 
   return (
@@ -24,8 +29,8 @@ export default function HomePage() {
             <li>Contact</li>
           </ul>
           <div className="auth-buttons">
-            <button className="btn btn-login" onClick={login}>Login</button>
-            <button className="btn btn-register" onClick={register}>Register</button>
+            <button className="btn btn-login" onClick={UserLogin}>User Login</button>
+            <button className="btn btn-register" onClick={AdminLogin}>Admin Login</button>
           </div>
         </nav>
       </header>
@@ -36,7 +41,6 @@ export default function HomePage() {
         <p>Join queues digitally, reduce waiting stress, and stay updated in real-time.</p>
         
         {/* Replace <a> inside button */}
-        <a href="queue.html" className="hero-btn">Join Queue Now</a>
       </section>
 
       {/* Features Section */}
