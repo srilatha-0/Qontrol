@@ -2,8 +2,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./registration.css";
-
+import { useNavigate } from "react-router-dom";
 function Register() {
+    const navigate = useNavigate();
     const [isSignIn, setIsSignIn] = useState(true);
 
     const [formData, setFormData] = useState({
@@ -47,10 +48,10 @@ function Register() {
                 username: formData.username,
                 password: formData.password,
             });
-            alert(res.data.message); // shows "Login successful!" or error
+            navigate("/afterhomelogin");
         } catch (err) {
             console.error(err);
-            alert(err.response?.data?.message || "Error signing in");
+            alert("Invalid username or password");
         }
     };
 

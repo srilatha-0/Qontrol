@@ -5,15 +5,10 @@ import { useNavigate } from "react-router-dom";
 export default function HomePage() {
   
   const navigate = useNavigate();
-  const UserLogin = () => {
-    console.log("user login works");
-    navigate("/userregister");
-  };
-
-  const AdminLogin = () => {
-    console.log("admin login works");
-    navigate("/AdminAuth");
-  };
+  const joinqueue = () =>{
+    console.log("join queue button");
+    navigate("/afterhomelogin")
+  }
 
   return (
     <div>
@@ -28,10 +23,7 @@ export default function HomePage() {
             <li>Dashboard</li>
             <li>Contact</li>
           </ul>
-          <div className="auth-buttons">
-            <button className="btn btn-login" onClick={UserLogin}>User Login</button>
-            <button className="btn btn-register" onClick={AdminLogin}>Admin Login</button>
-          </div>
+         
         </nav>
       </header>
 
@@ -39,6 +31,7 @@ export default function HomePage() {
       <section className="hero">
         <h2>Smart Crowd & Queue Management</h2>
         <p>Join queues digitally, reduce waiting stress, and stay updated in real-time.</p>
+        <button className="btn btn-login" onClick={joinqueue}>join now</button>
         {/* Replace <a> inside button */}
       </section>
 
@@ -59,10 +52,6 @@ export default function HomePage() {
           <p>Track performance, reduce delays, and plan better staffing.</p>
         </div>
 
-        {/* <div className="feature-card">
-          <h3>🔔 Notifications</h3>
-          <p>Get SMS or push alerts when your turn is near.</p>
-        </div> */}
       </section>
 
       {/* Footer */}
