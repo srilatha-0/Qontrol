@@ -17,10 +17,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 // User schema
 const userSchema = new mongoose.Schema({
-  username: String,
-  phone: String,
-  email: String,
-  password: String,
+  username: String,required:true,unique:true,
+  phone: Number,required:true,
+  email: String,unique:true,required:true,
+  password: String,required:true,
 });
 
 const User = mongoose.model("User", userSchema);
@@ -47,5 +47,75 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+//admin schema____________________________________________________________
+//____________________________________________________________________________
+const adminschema = new mongoose.Schema({
+  username:{
+    type:String,require:true,unique:true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+});
+const Admin = mongoose.model("Admin",adminschema);
+
+
+app.post("/admin/signup",async(req,res) => {
+  const{username,phone,emmail,password,adminCode}=req.body;
+  if(adminCode !== process.env,ADMIN_CODE){
+    return res.status(403).json({message:"Invalid admin code"});
+  }
+  try{
+    const existingAdmin = await Admin.findOne({username});
+    if(existingAdmin){
+      return res.status(400).json({messgae:"Admin already exists"});
+    }
+    const newAdmin = new Admin({
+      username,
+      phone,
+      email,
+      password,
+    });
+    await newAdmin.save();
+    res.status(201).json({message:"admin registered successfully"});
+  }
+  catch(err){
+    res.status(500).json({error:err.message});
+  }
+});
+
+app.post("/admin/login",async(req,res) =>{
+  const{username,passwrod,adminCode} = req.body;
+
+  if (adminCode !== process.env.ADMIN_CODE) {
+    return res.status(403).json({ message: "Invalid admin code" });
+  }
+  try{
+    const admin = await Admin.findOne({username,password});
+    if(!admin){
+      return res.status(400).json({message:"invalid credentials"});
+    }
+    res.status(200).json({message:"Admin login successful"});
+  }
+  catch(err){
+    res.status.json({error:err.message});
+  }
+
+})
+
+//_______________________________________________________________________
+//_______________________________________________________________________
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

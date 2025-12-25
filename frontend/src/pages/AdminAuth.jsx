@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./AdminAuth.css";
-
+import { useNavigate } from "react-router-dom";
 export default function AdminAuth() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [formData, setFormData] = useState({
@@ -11,8 +11,13 @@ export default function AdminAuth() {
     email: "",
     adminCode: "",
   });
-
-  const handleToggle = () => setIsSignIn(!isSignIn);
+  const navigate = useNavigate();
+  const admindash = () =>{
+    console.log("admin dashboard after the login worked");
+    navigate("/AdminDashBoard");
+  }
+  const handleSignInClick = () => setIsSignIn(true);
+  const handleSignUpClick = () => setIsSignIn(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +41,13 @@ export default function AdminAuth() {
     if (messages.length > 0) {
       alert(messages.join("\n"));
     } else {
-      alert(isSignIn ? "Admin signed in successfully!" : "Admin registered successfully!");
+      if(isSignIn){
+        console.log("admin logged in");
+        admindash();
+      }
+      else{
+        alert("admin registered successfully");
+      }
       setFormData({
         username: "",
         phone: "",
@@ -52,10 +63,10 @@ export default function AdminAuth() {
     <div className="login-wrap">
       <div className="login-html">
         <div>
-          <span className={`tab ${isSignIn ? "sign-in-tab" : ""}`} onClick={handleToggle}>
+          <span className={`tab ${isSignIn ? "sign-in-tab" : ""}`} onClick={handleSignInClick}>
             Sign In
           </span>
-          <span className={`tab ${!isSignIn ? "sign-in-tab" : ""}`} onClick={handleToggle}>
+          <span className={`tab ${!isSignIn ? "sign-in-tab" : ""}`} onClick={handleSignUpClick}>
             Sign Up
           </span>
         </div>
