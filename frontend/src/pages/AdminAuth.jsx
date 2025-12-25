@@ -1,6 +1,9 @@
+// src/pages/AdminAuth.jsx
 import React, { useState } from "react";
+import axios from "axios";
 import "./AdminAuth.css";
 import { useNavigate } from "react-router-dom";
+
 export default function AdminAuth() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [formData, setFormData] = useState({
@@ -11,11 +14,13 @@ export default function AdminAuth() {
     email: "",
     adminCode: "",
   });
+
   const navigate = useNavigate();
-  const admindash = () =>{
-    console.log("admin dashboard after the login worked");
-    navigate("/AdminDashBoard");
-  }
+
+  const admindash = () => {
+    navigate("/AdminDashboard");
+  };
+
   const handleSignInClick = () => setIsSignIn(true);
   const handleSignUpClick = () => setIsSignIn(false);
 
@@ -23,50 +28,92 @@ export default function AdminAuth() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { username, phone, password, repeatPassword, email, adminCode } = formData;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    let messages = [];
-
-    if (username.trim().length < 3) messages.push("Username must be at least 3 characters.");
-    if (password.length < 6) messages.push("Password must be at least 6 characters.");
-    if (adminCode !== "ADMIN2025") messages.push("Admin Code must be ADMIN2025.")
-    if(!isSignIn){
-    if (password !== repeatPassword) messages.push("Passwords do not match.");
-    if (!emailRegex.test(email)) messages.push("Invalid email address.");
-    if (!/^\d{10}$/.test(phone)) messages.push("Phone number must be 10 digits.");
+    // Validation
+    if (!username || username.trim().length < 3) {
+      alert("Username must be at least 3 characters");
+      return;
     }
-    if (messages.length > 0) {
-      alert(messages.join("\n"));
-    } else {
-      if(isSignIn){
-        console.log("admin logged in");
+    if (!password || password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+    if (!adminCode || adminCode.trim() === "") {
+      alert("Admin code is required");
+      return;
+    }
+
+    if (!isSignIn) {
+      if (password !== repeatPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert("Enter a valid email");
+        return;
+      }
+      if (!phone || !/^\d{10}$/.test(phone)) {
+        alert("Enter a valid 10-digit phone number");
+        return;
+      }
+    }
+
+    try {
+      if (isSignIn) {
+        // Admin login API call
+        const response = await axios.post("http://localhost:5000/admin/login", {
+          username,
+          password,
+          adminCode,
+        });
+        // Login successful → navigate silently
         admindash();
+      } else {
+        // Admin signup API call
+        const response = await axios.post("http://localhost:5000/admin/signup", {
+          username,
+          phone,
+          email,
+          password,
+          adminCode,
+        });
+        alert(response.data.message); // Only alert for signup success
+        setIsSignIn(true); // Switch to sign-in after signup
       }
-      else{
-        alert("admin registered successfully");
-      }
-      setFormData({
-        username: "",
-        phone: "",
-        password: "",
-        repeatPassword: "",
-        email: "",
-        adminCode: "",
-      });
+    } catch (error) {
+      console.error(error);
+      // Show alert only for login or signup failure
+      alert(error.response?.data?.message || "Something went wrong");
     }
+
+    // Clear form silently
+    setFormData({
+      username: "",
+      phone: "",
+      password: "",
+      repeatPassword: "",
+      email: "",
+      adminCode: "",
+    });
   };
 
   return (
     <div className="login-wrap">
       <div className="login-html">
         <div>
-          <span className={`tab ${isSignIn ? "sign-in-tab" : ""}`} onClick={handleSignInClick}>
+          <span
+            className={`tab ${isSignIn ? "sign-in-tab" : ""}`}
+            onClick={handleSignInClick}
+          >
             Sign In
           </span>
-          <span className={`tab ${!isSignIn ? "sign-in-tab" : ""}`} onClick={handleSignUpClick}>
+          <span
+            className={`tab ${!isSignIn ? "sign-in-tab" : ""}`}
+            onClick={handleSignUpClick}
+          >
             Sign Up
           </span>
         </div>
