@@ -256,6 +256,15 @@
   }
 }
 
+.delete-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #da190b;
+}
+
 @media (max-width: 768px) {
   .dashboard-header {
     flex-direction: column;

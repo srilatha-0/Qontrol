@@ -4,11 +4,11 @@ import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  
+
   // State for queues
   const [queues, setQueues] = useState([]);
   const [filteredQueues, setFilteredQueues] = useState([]);
-  
+
   // State for new queue form
   const [newQueue, setNewQueue] = useState({
     organisationName: '',
@@ -16,37 +16,39 @@ const AdminDashboard = () => {
     pinCode: '',
     avgTimePerPerson: 5 // Default value
   });
-  
+
   // State for search
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Filter queues when search term changes
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredQueues(queues);
       return;
     }
-    
+
     const term = searchTerm.toLowerCase();
-    const filtered = queues.filter(queue => 
+    const filtered = queues.filter(queue =>
       queue.organisationName.toLowerCase().includes(term) ||
       queue.locationName.toLowerCase().includes(term) ||
       queue.pinCode.toString().includes(term)
     );
-    
+
     setFilteredQueues(filtered);
   }, [searchTerm, queues]);
-  
+
   // Initialize filteredQueues when queues change
   useEffect(() => {
     setFilteredQueues(queues);
   }, [queues]);
-  
+
   // Generate a unique queue ID (backend will handle this in production)
   const generateQueueId = () => {
     return 'Q' + Date.now() + Math.floor(Math.random() * 1000);
   };
-  
+  const handleDelete = () => {
+    alert("Delete clicked"); // Placeholder function until backend is ready
+  };
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,17 +57,18 @@ const AdminDashboard = () => {
       [name]: value
     }));
   };
-  
+
   // Handle creating a new queue
   const handleCreateQueue = (e) => {
     e.preventDefault();
-    
+
     // Basic validation
     if (!newQueue.organisationName.trim() || !newQueue.locationName.trim() || !newQueue.pinCode) {
       alert('Please fill in all required fields');
       return;
     }
-    
+
+
     // Create new queue object
     const queue = {
       id: generateQueueId(),
@@ -76,10 +79,10 @@ const AdminDashboard = () => {
       usersJoined: 0,
       createdAt: new Date().toISOString()
     };
-    
+
     // Add to state (in production, this would be an API call)
     setQueues(prev => [...prev, queue]);
-    
+
     // Reset form
     setNewQueue({
       organisationName: '',
@@ -88,7 +91,7 @@ const AdminDashboard = () => {
       avgTimePerPerson: 5
     });
   };
-  
+
   // Handle editing average time per person
   const handleEditAvgTime = (queueId, newTime) => {
     // Validate time
@@ -97,26 +100,26 @@ const AdminDashboard = () => {
       alert('Please enter a valid time between 1 and 60 minutes');
       return;
     }
-    
+
     // Update state (in production, this would be an API call)
-    setQueues(prev => prev.map(queue => 
-      queue.id === queueId 
+    setQueues(prev => prev.map(queue =>
+      queue.id === queueId
         ? { ...queue, avgTimePerPerson: time }
         : queue
     ));
   };
-  
+
   // Handle viewing queue details
   const handleViewQueue = (queueId) => {
     navigate(`/queue/${queueId}`);
   };
-  
+
   // Handle logout
   const handleLogout = () => {
     // In production, this would clear auth tokens and redirect to login
     navigate('/login');
   };
-  
+
   return (
     <div className="admin-dashboard">
       {/* Top Header */}
@@ -126,7 +129,7 @@ const AdminDashboard = () => {
           Logout
         </button>
       </header>
-      
+
       <main className="dashboard-content">
         {/* Create New Queue Section */}
         <section className="create-queue-section">
@@ -145,7 +148,7 @@ const AdminDashboard = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="locationName">Location Name *</label>
                 <input
@@ -159,7 +162,7 @@ const AdminDashboard = () => {
                 />
               </div>
             </div>
-            
+
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="pinCode">Pin Code *</label>
@@ -173,7 +176,7 @@ const AdminDashboard = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="avgTimePerPerson">Avg. Time Per Person (minutes) *</label>
                 <input
@@ -188,13 +191,13 @@ const AdminDashboard = () => {
                 />
               </div>
             </div>
-            
+
             <button type="submit" className="create-btn">
               Create Queue
             </button>
           </form>
         </section>
-        
+
         {/* Search Queues Section */}
         <section className="search-queues-section">
           <h2>Search Queues</h2>
@@ -211,11 +214,11 @@ const AdminDashboard = () => {
             </span>
           </div>
         </section>
-        
+
         {/* Available Queues Section */}
         <section className="available-queues-section">
           <h2>Available Queues</h2>
-          
+
           {filteredQueues.length === 0 ? (
             <div className="no-queues">
               <p>No queues found. Create your first queue above.</p>
@@ -253,12 +256,17 @@ const AdminDashboard = () => {
                       </td>
                       <td className="users-count">{queue.usersJoined}</td>
                       <td>
-                        <button 
+                        <button
                           className="view-btn"
                           onClick={() => handleViewQueue(queue.id)}
                         >
                           View Queue
                         </button>
+
+                        <button className="btn delete-btn" onClick={handleDelete}>
+                          Delete
+                        </button>
+
                       </td>
                     </tr>
                   ))}
@@ -268,7 +276,7 @@ const AdminDashboard = () => {
           )}
         </section>
       </main>
-      
+
       <footer className="dashboard-footer">
         <p>Queue Control System v1.0 • Admin Dashboard</p>
       </footer>
