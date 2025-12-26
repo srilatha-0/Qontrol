@@ -11,16 +11,18 @@ const AdminDashboard = () => {
     organisationName: '',
     locationName: '',
     pinCode: '',
-    avgTimePerPerson: 5
+    avgTimePerPerson: 5,
+    purpose: ''
   });
   const [searchTerm, setSearchTerm] = useState('');
 
-  const backendURL = 'http://localhost:5000/queue'; // change if needed
+  const backendURL = 'http://localhost:5000/queue';
 
   // Fetch all queues from backend
   const fetchQueues = async () => {
     try {
       const res = await axios.get(backendURL);
+      // res.data should already include users if backend populate('users') is done
       setQueues(res.data);
     } catch (err) {
       console.error(err);
@@ -28,45 +30,44 @@ const AdminDashboard = () => {
     }
   };
 
+
   useEffect(() => {
     fetchQueues();
   }, []);
 
-  // Search filter
+  // Filter queues for search
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredQueues(queues);
       return;
     }
     const term = searchTerm.toLowerCase();
-    const filtered = queues.filter(queue =>
-      queue.organisationName.toLowerCase().includes(term) ||
-      queue.locationName.toLowerCase().includes(term) ||
-      queue.pinCode.toString().includes(term)
+    setFilteredQueues(
+      queues.filter(
+        (q) =>
+          q.organisationName.toLowerCase().includes(term) ||
+          q.locationName.toLowerCase().includes(term) ||
+          q.pinCode.toString().includes(term)
+      )
     );
-    setFilteredQueues(filtered);
   }, [searchTerm, queues]);
-
-  useEffect(() => {
-    setFilteredQueues(queues);
-  }, [queues]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewQueue(prev => ({ ...prev, [name]: value }));
+    setNewQueue((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleCreateQueue = async (e) => {
     e.preventDefault();
-    if (!newQueue.organisationName.trim() || !newQueue.locationName.trim() || !newQueue.pinCode) {
+    if (!newQueue.organisationName.trim() || !newQueue.locationName.trim() || !newQueue.pinCode || !newQueue.purpose.trim()) {
       alert('Please fill all required fields');
       return;
     }
 
     try {
       const res = await axios.post(backendURL, newQueue);
-      setQueues(prev => [...prev, res.data]);
-      setNewQueue({ organisationName: '', locationName: '', pinCode: '', avgTimePerPerson: 5 });
+      setQueues((prev) => [...prev, res.data]);
+      setNewQueue({ organisationName: '', locationName: '', pinCode: '', avgTimePerPerson: 5, purpose: '' });
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Error creating queue');
@@ -79,20 +80,22 @@ const AdminDashboard = () => {
       alert('Time must be 1-60 minutes');
       return;
     }
+
     try {
       const res = await axios.put(`${backendURL}/${queueId}/avgTime`, { avgTimePerPerson: time });
-      setQueues(prev => prev.map(q => q._id === queueId ? res.data : q));
+      setQueues((prev) => prev.map((q) => (q._id === queueId ? res.data : q)));
     } catch (err) {
       console.error(err);
-      alert('Error updating time');
+      alert('Error updating average time');
     }
   };
 
   const handleDelete = async (queueId) => {
     if (!window.confirm('Are you sure you want to delete this queue?')) return;
+
     try {
       await axios.delete(`${backendURL}/${queueId}`);
-      setQueues(prev => prev.filter(q => q._id !== queueId));
+      setQueues((prev) => prev.filter((q) => q._id !== queueId));
     } catch (err) {
       console.error(err);
       alert('Error deleting queue');
@@ -105,7 +108,7 @@ const AdminDashboard = () => {
       if (res.data.length === 0) {
         alert('No users joined yet');
       } else {
-        const usersList = res.data.map(u => `${u.name} - ${u.phone}`).join('\n');
+        const usersList = res.data.map((u) => `${u.name} - ${u.phone}`).join('\n');
         alert(`Users joined:\n${usersList}`);
       }
     } catch (err) {
@@ -115,20 +118,23 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    navigate('/');
+    navigate('/login');
   };
 
   return (
     <div className="admin-dashboard">
       <header className="dashboard-header">
         <h1>Queue Control System – Admin</h1>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
       </header>
 
       <main className="dashboard-content">
+        {/* Create Queue */}
         <section className="create-queue-section">
           <h2>Create New Queue</h2>
-          <form onSubmit={handleCreateQueue} className="queue-form">
+          <form className="queue-form" onSubmit={handleCreateQueue}>
             <div className="form-row">
               <div className="form-group">
                 <label>Organisation Name *</label>
@@ -139,6 +145,7 @@ const AdminDashboard = () => {
                 <input type="text" name="locationName" value={newQueue.locationName} onChange={handleInputChange} required />
               </div>
             </div>
+
             <div className="form-row">
               <div className="form-group">
                 <label>Pin Code *</label>
@@ -149,27 +156,45 @@ const AdminDashboard = () => {
                 <input type="number" name="avgTimePerPerson" value={newQueue.avgTimePerPerson} onChange={handleInputChange} min="1" max="60" required />
               </div>
             </div>
-            <button type="submit">Create Queue</button>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Purpose *</label>
+                <input type="text"
+                  name="purpose"
+                  value={newQueue.purpose}
+                  onChange={handleInputChange} required />
+              </div>
+            </div>
+
+            <div className="form-row center-btn">
+              <button type="submit">Create Queue</button>
+            </div>
           </form>
         </section>
 
+        {/* Search */}
         <section className="search-queues-section">
           <h2>Search Queues</h2>
-          <input type="text" placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+          <input type="text" placeholder="Search..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           <p>{filteredQueues.length} queue{filteredQueues.length !== 1 ? 's' : ''} found</p>
         </section>
 
+        {/* Queues Table */}
         <section className="available-queues-section">
           <h2>Available Queues</h2>
-          {filteredQueues.length === 0 ? <p>No queues found</p> : (
+          {filteredQueues.length === 0 ? (
+            <p>No queues found</p>
+          ) : (
             <table className="queues-table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Organisation</th>
-                  <th>Location</th>
-                  <th>Pin</th>
-                  <th>Avg Time</th>
+                  <th>Queue Code</th> {/* moved first */}
+                  <th>Organisation Name</th>
+                  <th>Location Name</th>
+                  <th>Pin Code</th>
+                  <th>Avg. Time (min)</th>
+                  <th>Purpose</th>
                   <th>Users Joined</th>
                   <th>Actions</th>
                 </tr>
@@ -177,22 +202,30 @@ const AdminDashboard = () => {
               <tbody>
                 {filteredQueues.map(queue => (
                   <tr key={queue._id}>
-                    <td>{queue._id}</td>
+                    <td>{queue.queueCode}</td> {/* display queueCode first */}
                     <td>{queue.organisationName}</td>
                     <td>{queue.locationName}</td>
                     <td>{queue.pinCode}</td>
-                    <td >
-                      <input className='time-input' type="number"  value={queue.avgTimePerPerson} min="1" max="60"
-                        onChange={(e) => handleEditAvgTime(queue._id, e.target.value)} />
-                    </td>
-                    <td>{queue.usersJoined.length}</td>
                     <td>
-                      <button onClick={() => handleViewQueue(queue._id)}className='view-btn'>View Queue</button>
+                      <input
+                        type="number"
+                        value={queue.avgTimePerPerson}
+                        onChange={(e) => handleEditAvgTime(queue._id, e.target.value)}
+                        min="1"
+                        max="60"
+                      />
+                    </td>
+                    <td>{queue.purpose}</td>
+                    <td>{queue.users ? queue.users.length : 0}</td>
+                    <td>
+                      <button className='view-btn' onClick={() => handleViewQueue(queue._id)}>View Queue</button>
                       <button className='delete-btn' onClick={() => handleDelete(queue._id)}>Delete</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
+
+
             </table>
           )}
         </section>

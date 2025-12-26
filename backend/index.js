@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const userRoutes = require("./src/routes/userRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
-const queueRoutes = require("./src/routes/queueRoutes"); 
+const queueRoutes = require("./src/routes/queueRoutes"); // ✅ correct
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,7 +17,7 @@ app.use(express.json());
 // Routes
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
-app.use("/queue", queueRoutes); 
+app.use("/queue", queueRoutes); // ✅ only this line
 
 // Connect to MongoDB
 mongoose
