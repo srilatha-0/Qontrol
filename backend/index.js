@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+// Routes
 const userRoutes = require("./src/routes/userRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
-const queueRoutes = require("./src/routes/queueRoutes"); // ✅ correct
+const queueRoutes = require("./src/routes/queueRoutes");
+const userJoinRoutes = require("./src/routes/userJoinRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,10 +16,12 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Route prefixes
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
-app.use("/queue", queueRoutes); // ✅ only this line
+app.use("/queue", queueRoutes);
+app.use("/user-join", userJoinRoutes);
+
 
 // Connect to MongoDB
 mongoose

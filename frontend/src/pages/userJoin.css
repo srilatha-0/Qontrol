@@ -1,0 +1,153 @@
+.join-queue-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f7fc;
+  font-family: Arial, sans-serif;
+  gap: 20px;
+  padding: 20px;
+}
+
+.left-column {
+  flex: 0 0 250px; /* fixed width */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.profile-card {
+  background-color: white;
+  padding: 20px;
+  height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  line-height: 1.6;
+}
+
+.profile-card h2 {
+  margin-bottom: 15px;
+  color: #1a1aff;
+}
+
+.profile-card p {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.chatbot {
+  /* position: fixed; */
+  margin-top: 250px;
+  margin-left: 0px;
+  width: 245px; /* same as left column width */
+  height: 450px; /* increased height */
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 15px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make messages area scrollable */
+.chat-messages {
+  flex: 1;               /* take all available space */
+  overflow-y: auto;      /* enable vertical scrolling */
+  margin-bottom: 10px;   /* space before input */
+}
+
+/* Optional: make input stay at bottom */
+.chatbot input {
+  margin-bottom: 10px;
+}
+
+/* Optional: keep send button below input */
+.chatbot .send-btn {
+  align-self: flex-end;
+}
+
+
+.chatbot h4 {
+  margin: 0 0 10px 0;
+  text-align: center;
+  color: #1a1aff;
+}
+
+
+
+.send-btn {
+  width: 50px;
+  margin-left: 5px;
+  background-color: #1a1aff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background-color: #0033cc;
+}
+
+/* Right Column - Queues stays same */
+.right-column {
+  flex: 1;
+}
+
+
+/* Search input */
+.queue-search input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Queue list container */
+.queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto; /* scrollable if many queues */
+}
+
+/* Queue Card */
+.queue-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.queue-card:hover {
+  transform: translateY(-5px);
+}
+
+.queue-card h3 {
+  margin: 0;
+  color: #1a1aff;
+}
+
+.queue-card p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.join-btn {
+  background-color: #1a1aff;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.join-btn:hover {
+  background-color: #0033cc;
+}

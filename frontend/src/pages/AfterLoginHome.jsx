@@ -5,9 +5,13 @@ import { useNavigate } from "react-router-dom";
 export default function HomePage() {
   
   const navigate = useNavigate();
-  const joinqueue = () =>{
-    console.log("join queue button");
-    navigate("/afterhomelogin")
+  // const joinqueue = () =>{
+  //   console.log("join queue button");
+  //   navigate("/afterhomelogin")
+  // }
+  const userJoin = () =>{
+    console.log("user clicked join now");
+    navigate("/userJoin");
   }
 
   return (
@@ -31,7 +35,7 @@ export default function HomePage() {
       <section className="hero">
         <h2>Smart Crowd & Queue Management</h2>
         <p>Join queues digitally, reduce waiting stress, and stay updated in real-time.</p>
-        <button className="btn btn-login" onClick={joinqueue}>join now</button>
+        <button className="btn btn-login" onClick={userJoin}>join now</button>
         {/* Replace <a> inside button */}
       </section>
 
