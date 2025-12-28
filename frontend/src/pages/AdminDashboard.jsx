@@ -102,20 +102,10 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleViewQueue = async (queueId) => {
-    try {
-      const res = await axios.get(`${backendURL}/${queueId}/users`);
-      if (res.data.length === 0) {
-        alert('No users joined yet');
-      } else {
-        const usersList = res.data.map((u) => `${u.name} - ${u.phone}`).join('\n');
-        alert(`Users joined:\n${usersList}`);
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Error fetching users');
-    }
+  const handleViewQueue = (queue) => {
+    navigate('/viewqueue', { state: { queue } });
   };
+
 
   const handleLogout = () => {
     navigate('/login');

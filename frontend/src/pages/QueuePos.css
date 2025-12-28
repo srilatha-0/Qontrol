@@ -1,0 +1,78 @@
+.queue-pos-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #eef2f7, #d9e2ec);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.queue-pos-card {
+    background: #ffffff;
+    padding: 30px;
+    width: 360px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+
+    /* ✅ COLUMN LAYOUT */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.queue-pos-card h2 {
+    text-align: center;
+    color: #1f2933;
+    margin-bottom: 10px;
+}
+
+.queue-pos-card p {
+    margin: 0;
+    padding: 8px 12px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.queue-pos-card hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 10px 0;
+}
+
+.queue-pos-card h3 {
+    margin: 8px 0;
+    padding: 10px;
+    background: #e0f2fe;
+    border-radius: 10px;
+    color: #0369a1;
+    font-weight: 600;
+    text-align: center;
+}
+
+.queue-pos-card button {
+    margin-top: 15px;
+    padding: 12px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.queue-pos-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+}
+.queue-pos-card .leave-btn {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: white;
+}
+
+.queue-pos-card .leave-btn:hover {
+    box-shadow: 0 6px 15px rgba(220, 38, 38, 0.45);
+}

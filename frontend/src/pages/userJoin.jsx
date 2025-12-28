@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./userJoin.css";
+
+import "./userJoin.css"
+import { useNavigate } from "react-router-dom";
 
 const JoinQueuePage = () => {
     const [user, setUser] = useState({ name: "", phone: "" });
@@ -18,27 +20,22 @@ const JoinQueuePage = () => {
             .then((res) => setQueues(res.data))
             .catch((err) => console.error("Error fetching queues:", err));
     }, []);
+    const navigate = useNavigate();
 
-    const handleJoinQueue = (queue) => {
-        if (!user.name || !user.phone) {
-            alert("User info not loaded yet!");
-            return;
-        }
+const handleJoinQueue = (queue) => {
+    console.log("clicked on join queue");
 
-        axios
-            .post(`http://localhost:5000/user-join/${queue._id}/join`, {
-                name: user.name,
-                phone: user.phone,
-            })
-            .then((res) => {
-                alert(
-                    `You joined queue "${queue.name}". Your position is ${res.data.position}`
-                );
-                return axios.get("http://localhost:5000/user-join");
-            })
-            .then((res) => setQueues(res.data))
-            .catch((err) => console.error("Error joining queue:", err));
-    };
+    navigate("/queuepos", {
+        state: {
+            user,
+            queue,
+            position: queue.users?.length + 1 || 1,
+            estimatedTime: (queue.users?.length + 1) * (queue.avgTimePerPerson || 1),
+        },
+    });
+};
+
+
 
     return (
         <>
@@ -80,12 +77,10 @@ const JoinQueuePage = () => {
                                         <p><strong>Organisation:</strong> {queue.organisationName}</p>
                                         <p><strong>Purpose:</strong> {queue.purpose}</p>
                                         <p><strong>People in Queue:</strong> {queue.users?.length || 0}</p>
-                                        <p><strong>Estimated Time:</strong> {queue.avgTimePerPerson|| 0} mins</p>
+                                        <p><strong>Estimated Time:</strong> {queue.avgTimePerPerson || 0} mins</p>
                                     </div>
-                                    <button
-                                        className="join-btn"
-                                        onClick={() => handleJoinQueue(queue)}
-                                    >
+                                    <button className="join-btn" onClick={() => handleJoinQueue(queue)}>
+
                                         Join Queue
                                     </button>
                                 </div>
