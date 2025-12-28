@@ -4,8 +4,7 @@ import Register from "./pages/Register";
 import AdminAuth from "./pages/AdminAuth";
 import AfterLoginHome from "./pages/AfterLoginHome";
 import AdminDashboard from "./pages/AdminDashboard";
-import UserJoin from "./pages/userJoin"; // make sure the import name is uppercase
-
+import UserJoin from "./pages/userJoin"; 
 function App() {
   return (
     <Routes>

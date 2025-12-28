@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 
 function generateQueueCode() {
-  // Generates something like 'A1B2C3'
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
 const queueSchema = new mongoose.Schema({
-  queueCode: { type: String, unique: true, default: generateQueueCode }, // ✅ moved to top
+  queueCode: { type: String, unique: true, default: generateQueueCode },
   organisationName: { type: String, required: true },
   locationName: { type: String, required: true },
   pinCode: { type: Number, required: true },

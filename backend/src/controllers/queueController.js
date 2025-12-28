@@ -4,9 +4,10 @@ const QueueUser = require('../models/QueueUser');
 // Get all queues
 exports.getQueues = async (req, res) => {
   try {
-    const queues = await Queue.find().populate('users');
+    const queues = await Queue.find().populate('users'); // populate users
     res.json(queues);
   } catch (err) {
+    console.error("Error in getQueues:", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -16,7 +17,6 @@ exports.createQueue = async (req, res) => {
   try {
     const { organisationName, locationName, pinCode, avgTimePerPerson, purpose } = req.body;
 
-    // Check for duplicate organisationName
     const exists = await Queue.findOne({ organisationName });
     if (exists) return res.status(400).json({ message: "Queue with this name already exists" });
 
@@ -25,13 +25,13 @@ exports.createQueue = async (req, res) => {
       locationName,
       pinCode,
       avgTimePerPerson,
-      purpose, 
+      purpose,
     });
 
     await newQueue.save();
     res.status(201).json(newQueue);
   } catch (err) {
-    console.error(err);
+    console.error("Error creating queue:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -49,6 +49,7 @@ exports.updateAvgTime = async (req, res) => {
     await queue.save();
     res.json(queue);
   } catch (err) {
+    console.error("Error updating avg time:", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -61,9 +62,9 @@ exports.deleteQueue = async (req, res) => {
     if (!queue) return res.status(404).json({ message: 'Queue not found' });
 
     await QueueUser.deleteMany({ queue: queueId });
-
     res.json({ message: 'Queue deleted successfully' });
   } catch (err) {
+    console.error("Error deleting queue:", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -77,6 +78,7 @@ exports.getQueueUsers = async (req, res) => {
 
     res.json(queue.users);
   } catch (err) {
+    console.error("Error fetching queue users:", err);
     res.status(500).json({ message: err.message });
   }
 };
@@ -98,9 +100,9 @@ exports.joinQueue = async (req, res) => {
     queue.users.push(user._id);
     await queue.save();
 
-    res.json({ message: "Joined queue successfully" });
+    res.json({ message: "Joined queue successfully", userId: user._id });
   } catch (err) {
-    console.error(err);
+    console.error("Error joining queue:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

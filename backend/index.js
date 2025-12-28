@@ -22,7 +22,6 @@ app.use("/admin", adminRoutes);
 app.use("/queue", queueRoutes);
 app.use("/user-join", userJoinRoutes);
 
-
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)

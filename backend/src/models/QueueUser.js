@@ -1,21 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const queueUserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },
-  queue: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Queue",
-  },
-  joinedAt: {
-    type: Date,
-    default: Date.now,
-  },
+  queue: { type: mongoose.Schema.Types.ObjectId, ref: 'Queue', required: true },
+  joinedAt: { type: Date, default: Date.now },
 });
 
-/*
-  Prevents model overwrite error in Node v22 + nodemon
-*/
-module.exports =
-  mongoose.models.QueueUser ||
-  mongoose.model("QueueUser", queueUserSchema);
+module.exports = mongoose.models.QueueUser || mongoose.model('QueueUser', queueUserSchema);
