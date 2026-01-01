@@ -102,9 +102,10 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleViewQueue = (queue) => {
-    navigate('/viewqueue', { state: { queue } });
+  const handleViewQueue = (queueId) => {
+    navigate(`/viewqueue/${queueId}`);
   };
+
 
 
   const handleLogout = () => {
@@ -179,7 +180,7 @@ const AdminDashboard = () => {
             <table className="queues-table">
               <thead>
                 <tr>
-                  <th>Queue Code</th> {/* moved first */}
+                  <th>Queue Code</th>
                   <th>Organisation Name</th>
                   <th>Location Name</th>
                   <th>Pin Code</th>
@@ -190,9 +191,9 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredQueues.map(queue => (
+                {filteredQueues.map((queue) => (
                   <tr key={queue._id}>
-                    <td>{queue.queueCode}</td> {/* display queueCode first */}
+                    <td>{queue.queueCode}</td>
                     <td>{queue.organisationName}</td>
                     <td>{queue.locationName}</td>
                     <td>{queue.pinCode}</td>
@@ -200,7 +201,9 @@ const AdminDashboard = () => {
                       <input
                         type="number"
                         value={queue.avgTimePerPerson}
-                        onChange={(e) => handleEditAvgTime(queue._id, e.target.value)}
+                        onChange={(e) =>
+                          handleEditAvgTime(queue._id, e.target.value)
+                        }
                         min="1"
                         max="60"
                       />
@@ -208,12 +211,24 @@ const AdminDashboard = () => {
                     <td>{queue.purpose}</td>
                     <td>{queue.users ? queue.users.length : 0}</td>
                     <td>
-                      <button className='view-btn' onClick={() => handleViewQueue(queue._id)}>View Queue</button>
-                      <button className='delete-btn' onClick={() => handleDelete(queue._id)}>Delete</button>
+                      <button
+                        className="view-btn"
+                        onClick={() => handleViewQueue(queue._id)}
+                      >
+                        View Queue
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(queue._id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
+
 
 
             </table>

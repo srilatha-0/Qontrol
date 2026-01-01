@@ -19,6 +19,8 @@ function App() {
       <Route path="/userjoin" element={<UserJoin />} />
       <Route path="/queuepos" element={<QueuePos />} />
       <Route path="/viewqueue" element={<ViewQueue />} />
+      <Route path="/viewqueue/:queueId" element={<ViewQueue />} />
+
 
     </Routes>
   );
