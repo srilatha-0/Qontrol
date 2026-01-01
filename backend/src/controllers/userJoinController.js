@@ -1,5 +1,5 @@
-const Queue = require("../Queue"); // Queue model
-const QueueUser = require("../userJoinModel"); // QueueUser model
+const Queue = require("../models/Queue"); // Queue model
+const QueueUser = require("../models/userJoinModel"); // QueueUser model
 
 // ========================
 // User joins a queue
