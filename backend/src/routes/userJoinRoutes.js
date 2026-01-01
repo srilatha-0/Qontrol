@@ -1,11 +1,23 @@
-const express = require("express");
+const express = require("express"); 
+const {
+  joinQueue,
+  getQueueUsers,
+  removeFromQueue,
+  getUserCurrentQueue, // <-- add this
+} = require("../controllers/userJoinController");
+
 const router = express.Router();
-const { getQueues, joinQueue } = require("../controllers/userJoinController");
 
-// GET all queues
-router.get("/", getQueues);
+// User joins queue
+router.post("/queue/:queueId/join", joinQueue);
 
-// POST join a queue
-router.post("/:queueId/join", joinQueue);
+// Admin views queue users
+router.get("/admin/queue/:queueId/users", getQueueUsers);
+
+router.get("/current-queue", getUserCurrentQueue);
+
+
+// Admin removes user
+router.delete("/admin/queue/:queueId/remove/:entryId", removeFromQueue);
 
 module.exports = router;

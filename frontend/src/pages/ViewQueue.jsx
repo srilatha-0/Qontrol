@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import "./ViewQueue.css";
 
 const ViewQueue = () => {
-    const [queueUsers, setQueueUsers] = useState([
-        { id: 1, name: "Srilatha", phone: "9392848370", position: 1 },
-        { id: 2, name: "Anusha", phone: "9876543210", position: 2 },
-        { id: 3, name: "Ravi", phone: "9123456789", position: 3 },
-        { id: 4, name: "Kiran", phone: "9988776655", position: 4 },
-    ]);
+    const { queueId } = useParams();
+    const [queueUsers, setQueueUsers] = useState([]);
 
-    const handleComplete = (id) => {
-        const updatedQueue = queueUsers
-            .filter(user => user.id !== id)
-            .map((user, index) => ({
-                ...user,
-                position: index + 1,
-            }));
+    const fetchQueueUsers = useCallback(async () => {
+        const res = await axios.get(
+            `http://localhost:5000/queue-pos/admin/queue/${queueId}/users`
+        );
+        setQueueUsers(res.data);
+    }, [queueId]);
 
-        setQueueUsers(updatedQueue);
+    useEffect(() => {
+        fetchQueueUsers();
+    }, [fetchQueueUsers]);
+
+    const handleComplete = async (entryId) => {
+        await axios.delete(
+            `http://localhost:5000/queue-pos/admin/queue/${queueId}/remove/${entryId}`
+        );
+        fetchQueueUsers();
     };
 
     return (
@@ -28,20 +33,18 @@ const ViewQueue = () => {
                 <p className="empty">No people in queue</p>
             ) : (
                 <div className="queue-table">
-                    {queueUsers.map(user => (
-                        <div key={user.id} className="queue-row">
+                    {queueUsers.map(({ position, entry }) => (
+                        <div key={entry._id} className="queue-row">
                             <div>
-                                <p><strong>Name:</strong> {user.name}</p>
-                                <p><strong>Phone:</strong> {user.phone}</p>
+                                <p><strong>Name:</strong> {entry.name}</p>
+                                <p><strong>Phone:</strong> {entry.phone}</p>
                             </div>
 
-                            <div className="position">
-                                #{user.position}
-                            </div>
+                            <div className="position">#{position}</div>
 
                             <button
                                 className="complete-btn"
-                                onClick={() => handleComplete(user.id)}
+                                onClick={() => handleComplete(entry._id)}
                             >
                                 Complete
                             </button>

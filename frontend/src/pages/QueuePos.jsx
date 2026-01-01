@@ -1,39 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./QueuePos.css";  // ✅ Corrected import
+import axios from "axios";
+import "./QueuePos.css";
 
 const QueuePos = () => {
-    const { state } = useLocation();
-    const navigate = useNavigate();
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
-    if (!state) {
-        return <h2>No queue data found</h2>;
-    }
+  const [queueData, setQueueData] = useState(null);
 
-    const { user, queue, position, estimatedTime } = state;
+  // Extract values safely
+  const entry = state?.entry;
+  const position = state?.position;
+  const estimatedTime = state?.estimatedTime;
+  const queue = state?.queue;
 
-    return (
-        <div className="queue-pos-container">
-            <div className="queue-pos-card">
-                <h2>Queue Position</h2>
+  // ✅ Always call useEffect
+  useEffect(() => {
+    const fetchQueue = async () => {
+      try {
+        if (!queue && entry?.queue) {
+          const res = await axios.get(`http://localhost:5000/queue/${entry.queue}`);
+          setQueueData(res.data);
+        } else if (queue) {
+          setQueueData(queue);
+        }
+      } catch (err) {
+        console.error("Error fetching queue details:", err);
+      }
+    };
 
-                <p><strong>Name:</strong> {user.name}</p>
-                <p><strong>Phone:</strong> {user.phone}</p>
+    fetchQueue();
+  }, [queue, entry]);
 
-                <hr />
+  // Early return for missing state
+  if (!entry) {
+    return <h2>No queue data found</h2>;
+  }
 
-                <p><strong>Organisation:</strong> {queue.organisationName}</p>
-                <p><strong>Purpose:</strong> {queue.purpose}</p>
+  if (!queueData) {
+    return <p>Loading queue details...</p>;
+  }
 
-                <h3>Your Position: {position}</h3>
-                <h3>Estimated Time: {estimatedTime} mins</h3>
+  return (
+    <div className="queue-pos-container">
+      <div className="queue-pos-card">
+        <h2>Queue Position</h2>
 
-                <button onClick={() => navigate("/userjoin")}>
-                    Back to Queues
-                </button>
-            </div>
-        </div>
-    );
+        <p><strong>Name:</strong> {entry.name}</p>
+        <p><strong>Phone:</strong> {entry.phone}</p>
+
+        <hr />
+
+        <p><strong>Organisation:</strong> {queueData.organisationName || "N/A"}</p>
+        <p><strong>Purpose:</strong> {queueData.purpose || "N/A"}</p>
+
+        <h3>Your Position: {position}</h3>
+        <h3>Estimated Time: {estimatedTime} mins</h3>
+
+        <button onClick={() => navigate("/userjoin")}>
+          Back to Queues
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default QueuePos;

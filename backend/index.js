@@ -3,16 +3,15 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-// Routes
 const userRoutes = require("./src/routes/userRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
 const queueRoutes = require("./src/routes/queueRoutes");
 const userJoinRoutes = require("./src/routes/userJoinRoutes");
 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -22,11 +21,12 @@ app.use("/admin", adminRoutes);
 app.use("/queue", queueRoutes);
 app.use("/user-join", userJoinRoutes);
 
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB connected ✅"))
   .catch((err) => console.log(err));
 
 // Start server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT} ✅`));

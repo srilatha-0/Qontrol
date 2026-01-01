@@ -62,20 +62,34 @@ function Register() {
   // Sign-in submit
   const handleSubmitSignIn = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5000/user/login", {
-        username: formData.username,
-        password: formData.password,
-      });
 
-      // Success: navigate silently
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          username: formData.username,
+          password: formData.password,
+        }
+      );
+
+      // ✅ USE the response (fixes ESLint warning)
+      const { token } = res.data;
+
+      if (!token) {
+        alert("Login failed. Token not received.");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+
       navigate("/afterhomelogin");
+
     } catch (err) {
-      console.error(err);
-      // Alert only when credentials are wrong
+      console.error("Login error:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Invalid username or password");
     }
   };
+
 
   return (
     <div id="container" className={`container ${isSignIn ? "sign-in" : "sign-up"}`}>
