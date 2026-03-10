@@ -7,7 +7,7 @@ const userRoutes = require("./src/routes/userRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
 const queueRoutes = require("./src/routes/queueRoutes");
 const userJoinRoutes = require("./src/routes/userJoinRoutes");
-
+const chatRoutes = require("./src/routes/chatRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +20,7 @@ app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/queue", queueRoutes);
 app.use("/user-join", userJoinRoutes);
+app.use("/chat", chatRoutes);
 
 
 // Connect to MongoDB
