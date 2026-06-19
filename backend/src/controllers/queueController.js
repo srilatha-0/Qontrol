@@ -11,7 +11,6 @@ exports.getQueues = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 // Create a new queue
 exports.createQueue = async (req, res) => {
   try {

@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
 
-  const backendURL = 'http://localhost:5000/queue';
+  const backendURL = 'http://51.21.251.197:5000/queue';
 
   // Fetch all queues from backend
   const fetchQueues = async () => {

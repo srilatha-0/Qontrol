@@ -8,7 +8,7 @@ function Register() {
   const navigate = useNavigate();
   const [isSignIn, setIsSignIn] = useState(true);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({ 
     username: "",
     phone: "",
     email: "",
@@ -35,7 +35,7 @@ function Register() {
     try {
       // Correct user signup route
       const response = await axios.post(
-        "http://localhost:5000/user/signup",
+        "http://51.21.251.197:5000/user/signup",
         {
           username: formData.username,
           phone: formData.phone,
@@ -65,7 +65,7 @@ function Register() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/user/login",
+        "http://51.21.251.197:5000/user/login",
         {
           username: formData.username,
           password: formData.password,

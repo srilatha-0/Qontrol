@@ -20,7 +20,7 @@ const QueuePos = () => {
     const fetchQueue = async () => {
       try {
         if (!queue && entry?.queue) {
-          const res = await axios.get(`http://localhost:5000/queue/${entry.queue}`);
+          const res = await axios.get(`http://51.21.251.197:5000/queue/${entry.queue}`);
           setQueueData(res.data);
         } else if (queue) {
           setQueueData(queue);
