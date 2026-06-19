@@ -33,6 +33,8 @@ cd Qontrol
 ### 2. Start the Backend
 
 ```bash
+NOTE : before that at the project folder change the axoios call to the localhost of the port number as the modified it to host in the aws cloud platform
+
 cd backend
 npm install
 node index.js
