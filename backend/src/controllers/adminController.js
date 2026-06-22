@@ -8,6 +8,7 @@ exports.signup = async (req, res) => {
   if (adminCode !== process.env.ADMIN_CODE) {
     return res.status(403).json({ message: "Invalid admin code" });
   }
+
   try {
     const existingAdmin = await Admin.findOne({ $or: [{ username }, { email }] });
     if (existingAdmin) {

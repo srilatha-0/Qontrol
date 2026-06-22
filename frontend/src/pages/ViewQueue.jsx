@@ -11,7 +11,7 @@ const ViewQueue = () => {
   const fetchQueueUsers = async () => {
     try {
       const res = await axios.get(
-        `http://51.21.251.197:5000/user-join/admin/queue/${queueId}/users`
+        `http://localhost:5000/user-join/admin/queue/${queueId}/users`
       );
       setQueueUsers(res.data);
     } catch (err) {
@@ -28,7 +28,7 @@ const ViewQueue = () => {
   const handleComplete = async (entryId) => {
     try {
       await axios.delete(
-        `http://51.21.251.197:5000/user-join/admin/queue/${queueId}/remove/${entryId}`
+        `http://localhost:5000/user-join/admin/queue/${queueId}/remove/${entryId}`
       );
       fetchQueueUsers();
     } catch (err) {

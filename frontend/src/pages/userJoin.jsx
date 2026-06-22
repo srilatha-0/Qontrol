@@ -1,48 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./userJoin.css";
 import { useNavigate } from "react-router-dom";
 
 const JoinQueuePage = () => {
     const [user, setUser] = useState({ name: "", phone: "" });
-    const chatContainerRef = useRef(null);
     const [queues, setQueues] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState("");
-    const suggestedQuestions = [
-        "How long is the estimated waiting time?",
-        "Can I cancel my queue?",
-        "How many people are ahead of me?"
-    ];
-
-    const sendMessage = async (text) => {
-        if (!text) return;
-
-        setMessages(prev => [...prev, { sender: "user", text }]);
-        setInput("");
-
-        try {
-            // Find the current queue the user has joined
-            const currentQueue = queues.find(q => q.joined);
-
-            const res = await axios.post("http://51.21.251.197:5000/chat", {
-                message: text,
-                phone: user.phone,
-                queueId: currentQueue?._id,       // send current queue ID
-                position: currentQueue?.position, // send user position
-                totalPeople: currentQueue?.users?.length || 0, // total in queue
-                avgTime: currentQueue?.avgTimePerPerson || 5,  // default 5 mins
-            });
-
-            if (res.data.reply) {
-                setMessages(prev => [...prev, { sender: "bot", text: res.data.reply }]);
-            }
-        } catch (err) {
-            console.error(err);
-            setMessages(prev => [...prev, { sender: "bot", text: "Sorry, something went wrong!" }]);
-        }
-    };
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -53,14 +17,14 @@ const JoinQueuePage = () => {
 
         // Fetch user profile first (to get phone)
         axios
-            .get("http://51.21.251.197:5000/user/profile", {
+            .get("http://localhost:5000/user/profile", {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
                 setUser(res.data);
 
                 // Then fetch current queue using phone
-                return axios.get("http://51.21.251.197:5000/user-join/current-queue", {
+                return axios.get("http://localhost:5000/user-join/current-queue", {
                     params: { phone: res.data.phone },
                 });
             })
@@ -73,7 +37,7 @@ const JoinQueuePage = () => {
             .finally(() => {
                 // Fetch all queues AFTER currentQueue is known
                 axios
-                    .get("http://51.21.251.197:5000/queue")
+                    .get("http://localhost:5000/queue")
                     .then((res) => {
                         const updatedQueues = res.data.map((q) =>
                             currentQueue && q._id === currentQueue.queueId
@@ -86,17 +50,12 @@ const JoinQueuePage = () => {
             });
     }, []);
 
-    useEffect(() => {
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
 
-        }
-    }, [messages]);
 
     const handleJoinQueue = async (queue) => {
         try {
             const res = await axios.post(
-                `http://51.21.251.197:5000/user-join/queue/${queue._id}/join`,
+                `http://localhost:5000/user-join/queue/${queue._id}/join`,
                 {
                     name: user.name,
                     phone: user.phone,
@@ -194,26 +153,11 @@ const JoinQueuePage = () => {
 
             <div className="chatbot">
                 <h4>Support Bot</h4>
-                <div className="chat-messages" ref={chatContainerRef}>
-                    {messages.map((msg, index) => (
-                        <p key={index} className={msg.sender}>{msg.text}</p>
-                    ))}
+                <div className="chat-messages">
+                    <p>Hello! How can I help you with queues today?</p>
                 </div>
-
-                <div className="suggested-questions">
-                    {suggestedQuestions.map((q, idx) => (
-                        <button key={idx} onClick={() => sendMessage(q)}>{q}</button>
-                    ))}
-                </div>
-
-                <input
-                    type="text"
-                    placeholder="Type your message..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
-                />
-                <button className="send-btn" onClick={() => sendMessage(input)}>Send</button>
+                <input type="text" placeholder="Type your message..." />
+                <button className="send-btn">Send</button>
             </div>
         </>
     );

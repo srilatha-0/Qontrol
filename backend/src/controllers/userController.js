@@ -1,5 +1,4 @@
 const User = require("../models/User");
-//authentcaltion token system
 const jwt = require("jsonwebtoken");
 
 // Signup

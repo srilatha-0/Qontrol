@@ -14,7 +14,7 @@ export default function AdminAuth() {
     email: "",
     adminCode: "",
   });
-  
+
   const navigate = useNavigate();
 
   const admindash = () => {
@@ -64,7 +64,7 @@ export default function AdminAuth() {
     try {
       if (isSignIn) {
         // Admin login API call
-        const response = await axios.post("http://13.63.170.150:5000/admin/login", {
+        const response = await axios.post("http://localhost:5000/admin/login", {
           username,
           password,
           adminCode,
@@ -73,7 +73,7 @@ export default function AdminAuth() {
         admindash();
       } else {
         // Admin signup API call
-        const response = await axios.post("http://13.63.170.150:5000/admin/signup", {
+        const response = await axios.post("http://localhost:5000/admin/signup", {
           username,
           phone,
           email,
